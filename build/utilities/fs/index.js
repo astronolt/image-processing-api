@@ -35,59 +35,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var image_1 = __importDefault(require("../../services/image"));
-var routes = express_1.default.Router();
-routes.get('/', function (req, res) {
-    res.end('main api directory');
-});
-routes.get('/images', function (req, res) {
-    // Extract the values of the needed parameters
-    var fileName = req.query.filename;
-    if (fileName === '') {
-        res.end('Error: missing "filename" parameter');
-        return;
-    }
-    var width = parseInt(req.query.width);
-    if (isNaN(width)) {
-        res.end('Error: missing "width" parameter');
-        return;
-    }
-    var height = parseInt(req.query.height);
-    if (isNaN(height)) {
-        height = null;
-    }
-    var style = req.query.style;
-    if (style === '') {
-        style = null;
-    }
-    var extention = req.query.ext;
-    if (extention === '') {
-        extention = null;
-    }
-    void (function () { return __awaiter(void 0, void 0, void 0, function () {
-        var processedImage;
+var fs_1 = require("fs");
+function fileCheck(file) {
+    return __awaiter(this, void 0, void 0, function () {
+        var err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, image_1.default)(fileName, width, height, style, extention)];
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fs_1.promises.access(file)];
                 case 1:
-                    processedImage = _a.sent();
-                    if (processedImage === '') {
-                        res.end('Oops!! An error occured, please check your entered data');
-                    }
-                    else {
-                        console.log('image served');
-                        res.sendFile(processedImage, {
-                            root: __dirname + '../../../../'
-                        });
-                    }
-                    return [2 /*return*/];
+                    _a.sent();
+                    return [2 /*return*/, true];
+                case 2:
+                    err_1 = _a.sent();
+                    return [2 /*return*/, false];
+                case 3: return [2 /*return*/];
             }
         });
-    }); })();
-});
-exports.default = routes;
+    });
+}
+exports.default = fileCheck;

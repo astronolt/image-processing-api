@@ -39,32 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_1 = require("fs");
 var sharp_1 = __importDefault(require("sharp"));
-function fileCheck(file) {
-    return __awaiter(this, void 0, void 0, function () {
-        var err_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, fs_1.promises.access(file)];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/, true];
-                case 2:
-                    err_1 = _a.sent();
-                    return [2 /*return*/, false];
-                case 3: return [2 /*return*/];
-            }
-        });
-    });
-}
+var fs_1 = __importDefault(require("../../../utilities/fs"));
 function imageEdit(inputAsset, outputAsset, width, height, style) {
     if (height === void 0) { height = null; }
     if (style === void 0) { style = null; }
     return __awaiter(this, void 0, void 0, function () {
-        var editImage, err_2;
+        var editImage, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -82,7 +63,7 @@ function imageEdit(inputAsset, outputAsset, width, height, style) {
                     console.log('image generated');
                     return [2 /*return*/, true];
                 case 2:
-                    err_2 = _a.sent();
+                    err_1 = _a.sent();
                     return [2 /*return*/, false];
                 case 3: return [2 /*return*/];
             }
@@ -108,10 +89,10 @@ var processImage = function (fileName, width, height, style, extension) {
                     ext = extension !== '' ? '.jpg' : ".".concat(extension);
                     inputAsset = "./assets/full/".concat(fileName).concat(ext);
                     outputAsset = "./assets/thumb/".concat(fileName, "_").concat(width).concat(height !== null ? "_".concat(height) : '').concat(styleName).concat(ext);
-                    return [4 /*yield*/, fileCheck(inputAsset)];
+                    return [4 /*yield*/, (0, fs_1.default)(inputAsset)];
                 case 1:
                     inputAssetCheck = _a.sent();
-                    return [4 /*yield*/, fileCheck(outputAsset)
+                    return [4 /*yield*/, (0, fs_1.default)(outputAsset)
                         // check if convert file exist
                     ];
                 case 2:

@@ -39,55 +39,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var image_1 = __importDefault(require("../../services/image"));
-var routes = express_1.default.Router();
-routes.get('/', function (req, res) {
-    res.end('main api directory');
-});
-routes.get('/images', function (req, res) {
-    // Extract the values of the needed parameters
-    var fileName = req.query.filename;
-    if (fileName === '') {
-        res.end('Error: missing "filename" parameter');
-        return;
-    }
-    var width = parseInt(req.query.width);
-    if (isNaN(width)) {
-        res.end('Error: missing "width" parameter');
-        return;
-    }
-    var height = parseInt(req.query.height);
-    if (isNaN(height)) {
-        height = null;
-    }
-    var style = req.query.style;
-    if (style === '') {
-        style = null;
-    }
-    var extention = req.query.ext;
-    if (extention === '') {
-        extention = null;
-    }
-    void (function () { return __awaiter(void 0, void 0, void 0, function () {
-        var processedImage;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, image_1.default)(fileName, width, height, style, extention)];
+var sharp_1 = __importDefault(require("sharp"));
+var fs_1 = __importDefault(require("../../../utilities/fs"));
+console.log(process.cwd());
+describe('resizing test', function () {
+    var testImage = './assets/full/fjord.jpg';
+    var resizeWidth = 100;
+    var resizeHeight = 100;
+    it('should check if test image present', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = expect;
+                    return [4 /*yield*/, (0, fs_1.default)(testImage)];
                 case 1:
-                    processedImage = _a.sent();
-                    if (processedImage === '') {
-                        res.end('Oops!! An error occured, please check your entered data');
-                    }
-                    else {
-                        console.log('image served');
-                        res.sendFile(processedImage, {
-                            root: __dirname + '../../../../'
-                        });
-                    }
+                    _a.apply(void 0, [_b.sent()]).toEqual(true);
                     return [2 /*return*/];
             }
         });
-    }); })();
+    }); });
+    it('should resize the image to the specified dimensions', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var output, _a, width, height, outputWidth, outputHeight;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, (0, sharp_1.default)(testImage)
+                        .resize(resizeWidth, resizeHeight).toBuffer()];
+                case 1:
+                    output = _b.sent();
+                    return [4 /*yield*/, (0, sharp_1.default)(output).metadata()];
+                case 2:
+                    _a = _b.sent(), width = _a.width, height = _a.height;
+                    outputWidth = width;
+                    outputHeight = height;
+                    expect(outputWidth).toEqual(resizeWidth);
+                    expect(outputHeight).toEqual(resizeHeight);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });
-exports.default = routes;

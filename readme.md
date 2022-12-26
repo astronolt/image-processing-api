@@ -1,25 +1,20 @@
 # Image Processing API
-***
 an API that can be used to serve properly scaled versions of images to reduce page load size. The API will handle resizing, formating and serving stored images based on URL parameters.
 
-<br>
-<br>
-<br>
 
+
+<br>
+<br>
 
 ## Introduction
-***
 The goal of this project is to provide the building blocks for an enterprise-level solution that can handle hundreds of images with multiple thumbnail sizes, such as for an eCommerce application.
 
 With best practices for creating scalable, maintainable code using TypeScript, unit testing, linting, and formatting to ensure a scalable, maintainable, less error-prone, and easy to read application.
 
-
-<br>
 <br>
 <br>
 
 ## Installation
-***
 ```
 $ npm install
 $ npm start
@@ -34,7 +29,6 @@ $ npm test
 ```
 
 
-<br>
 <br>
 <br>
 

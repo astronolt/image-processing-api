@@ -1,14 +1,5 @@
-import { promises as fs } from 'fs'
 import sharp from 'sharp'
-
-async function fileCheck (file: string): Promise<boolean> {
-  try {
-    await fs.access(file)
-    return true
-  } catch (err) {
-    return false
-  }
-}
+import fileCheck from '../../../utilities/fs'
 
 async function imageEdit (
   inputAsset: string,
@@ -60,21 +51,15 @@ const processImage = async (
         (height as number) !== null ? `_${height as number}` : ''
     }${styleName}${ext}`
 
-  const inputAssetCheck = await fileCheck(inputAsset)
-  const outputAssetCheck = await fileCheck(outputAsset)
+  const inputAssetCheck: boolean = await fileCheck(inputAsset)
+  const outputAssetCheck: boolean = await fileCheck(outputAsset)
 
   // check if convert file exist
   if (!outputAssetCheck) {
     // check if image file exist
     if (inputAssetCheck) {
       if (
-        await imageEdit(
-          inputAsset,
-          outputAsset,
-          width,
-          height,
-          style
-        )
+        await imageEdit(inputAsset, outputAsset, width, height, style)
       ) {
         return outputAsset
       }

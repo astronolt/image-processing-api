@@ -1,13 +1,13 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 
-import processImage from '../api/images'
+import processImage from '../../services/image'
 const routes = express.Router()
 
-routes.get('/', (req, res) => {
+routes.get('/', (req: Request, res: Response): void => {
   res.end('main api directory')
 })
 
-routes.get('/images', (req, res) => {
+routes.get('/images', (req: Request, res: Response): void => {
   // Extract the values of the needed parameters
   const fileName: string = req.query.filename as string
   if (fileName === '') {

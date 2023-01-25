@@ -1,5 +1,5 @@
 import sharp from 'sharp'
-import fileCheck from '../../../utilities/fs'
+import fileCheck from 'utilities/fs'
 
 console.log(process.cwd())
 
